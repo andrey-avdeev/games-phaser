@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -28,7 +28,18 @@
     <Content Include=".build\Main.js" />
     <Content Include=".build\Preloader.js" />
     <Content Include=".gitignore" />
+    <Content Include="assets\audio\chicken.mp3" />
+    <Content Include="assets\audio\horse.mp3" />
+    <Content Include="assets\audio\pig.mp3" />
+    <Content Include="assets\audio\sheep.mp3" />
+    <Content Include="assets\images\arrow.png" />
+    <Content Include="assets\images\background.png" />
+    <Content Include="assets\images\chicken_spritesheet.png" />
+    <Content Include="assets\images\horse_spritesheet.png" />
+    <Content Include="assets\images\pig_spritesheet.png" />
+    <Content Include="assets\images\sheep_spritesheet.png" />
     <Content Include="gulpfile.js" />
+    <Content Include="index.html" />
     <Content Include="index.js" />
     <Content Include="lib\phaser.js" />
     <Content Include="public\css\main.css" />
@@ -50,6 +61,21 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\Main.ts" />
     <TypeScriptCompile Include="src\Preloader.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\audio\chicken.ogg" />
+    <Content Include="assets\audio\horse.ogg" />
+    <Content Include="assets\audio\pig.ogg" />
+    <Content Include="assets\audio\sheep.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

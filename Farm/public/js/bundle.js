@@ -102854,24 +102854,10 @@ var Farm;
             _super.apply(this, arguments);
         }
         Main.prototype.create = function () {
-            var lines = [
-                "PhaserOS/086DX Rel. 2.6.1",
-                "Copyright (c) Photon Research 1959-1983",
-                "All Rights Reserved.",
-                "",
-                "Welcome, Andrew Avdeev."
-            ];
-            var textStyle = {
-                fill: "#FFFFFF",
-                font: "px437_ati_8x16regular",
-                fontSize: "24px"
-            };
-            var y = 20;
-            for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-                var line = lines_1[_i];
-                this.game.add.text(20, y, line, textStyle);
-                y += 26;
-            }
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.scale.pageAlignHorizontally = true;
+            this.scale.pageAlignVertically = true;
+            this.background = this.game.add.sprite(0, 0, "background");
         };
         return Main;
     }(Phaser.State));
@@ -102891,6 +102877,16 @@ var Farm;
             _super.apply(this, arguments);
         }
         Preloader.prototype.preload = function () {
+            this.load.image("background", "assets/images/background.png");
+            this.load.image("arrow", "assets/images/arrow.png");
+            this.load.spritesheet("chiken", "assets/images/chiken_spritesheet.png", 131, 200, 3);
+            this.load.spritesheet("horse", "assets/images/horse_spritesheet.png", 212, 200, 3);
+            this.load.spritesheet("pig", "assets/images/pig_spritesheet.png", 297, 200, 3);
+            this.load.spritesheet("sheep", "assets/images/sheep_spritesheet.png", 244, 200, 3);
+            this.load.audio("chikenSound", ["assets/audio/chiken.ogg", "assets/audio/chiken.mp3"]);
+            this.load.audio("horseSound", ["assets/audio/horse.ogg", "assets/audio/horse.mp3"]);
+            this.load.audio("pigSound", ["assets/audio/pig.ogg", "assets/audio/pig.mp3"]);
+            this.load.audio("sheepSound", ["assets/audio/sheep.ogg", "assets/audio/sheep.mp3"]);
         };
         Preloader.prototype.create = function () {
             this.game.state.start("Main");

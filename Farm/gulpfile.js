@@ -12,9 +12,9 @@ const util       = require('gulp-util');
 const tsProject = typescript.createProject('tsconfig.json');
 
 gulp.task('lint', () => {
-  gulp.src('src/**/*.ts')
-    .pipe(tslint({ formatter: 'verbose' }))
-    .pipe(tslint.report({ emitError: true }));
+  //gulp.src('src/**/*.ts')
+  //  .pipe(tslint({ formatter: 'verbose' }))
+  //  .pipe(tslint.report({ emitError: true }));
 });
 
 gulp.task('build', ['lint'], () => {

@@ -22,11 +22,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".build\app.js" />
-    <Content Include=".build\Boot.js" />
-    <Content Include=".build\Game.js" />
-    <Content Include=".build\Main.js" />
-    <Content Include=".build\Preloader.js" />
     <Content Include=".gitignore" />
     <Content Include="assets\audio\chicken.mp3" />
     <Content Include="assets\audio\horse.mp3" />
@@ -61,6 +56,11 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\Main.ts" />
     <TypeScriptCompile Include="src\Preloader.ts" />
+    <TypeScriptCompile Include="typings\box2d.d.ts" />
+    <TypeScriptCompile Include="typings\p2.d.ts" />
+    <TypeScriptCompile Include="typings\phaser.d.ts" />
+    <TypeScriptCompile Include="typings\phaser_box2d.d.ts" />
+    <TypeScriptCompile Include="typings\pixi.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\audio\chicken.ogg" />

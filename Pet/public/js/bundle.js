@@ -102830,7 +102830,7 @@ var Pet;
     var Game = (function (_super) {
         __extends(Game, _super);
         function Game() {
-            _super.call(this, 800, 600, Phaser.AUTO);
+            _super.call(this, 360, 640, Phaser.AUTO);
             this.state.add("Boot", Pet.Boot);
             this.state.add("Preloader", Pet.Preloader);
             this.state.add("Main", Pet.Main);
@@ -102852,25 +102852,87 @@ var Pet;
         __extends(Main, _super);
         function Main() {
             _super.apply(this, arguments);
+            this.selected = null;
         }
+        Main.prototype.init = function () {
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.scale.pageAlignHorizontally = true;
+            this.scale.pageAlignVertically = true;
+        };
         Main.prototype.create = function () {
-            var lines = [
-                "PhaserOS/086DX Rel. 2.6.1",
-                "Copyright (c) Photon Research 1959-1983",
-                "All Rights Reserved.",
-                "",
-                "Welcome, Andrew Avdeev."
-            ];
-            var textStyle = {
-                fill: "#FFFFFF",
-                font: "px437_ati_8x16regular",
-                fontSize: "24px"
+            this.background = this.game.add.sprite(0, 0, 'background');
+            this.background.inputEnabled = true;
+            this.background.input.pixelPerfectClick = true;
+            this.background.events.onInputDown.add(this.placeItem, this);
+            this.pet = this.game.add.sprite(100, 400, 'pet');
+            this.pet.anchor.setTo(0.5);
+            this.pet.data = { health: 100, fun: 100 };
+            this.pet.inputEnabled = true;
+            this.pet.input.enableDrag();
+            this.apple = this.game.add.sprite(72, 570, 'apple');
+            this.apple.anchor.setTo(0.5);
+            this.apple.inputEnabled = true;
+            this.apple.events.onInputDown.add(this.pickItem, this);
+            this.apple.data = {
+                health: 20
             };
-            var y = 20;
-            for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-                var line = lines_1[_i];
-                this.game.add.text(20, y, line, textStyle);
-                y += 26;
+            this.candy = this.game.add.sprite(144, 570, 'candy');
+            this.candy.anchor.setTo(0.5);
+            ;
+            this.candy.inputEnabled = true;
+            this.candy.events.onInputDown.add(this.pickItem, this);
+            this.candy.data = {
+                health: -10,
+                fun: 10
+            };
+            this.toy = this.game.add.sprite(216, 570, 'toy');
+            this.toy.anchor.setTo(0.5);
+            this.toy.inputEnabled = true;
+            this.toy.events.onInputDown.add(this.pickItem, this);
+            this.toy.data = {
+                fun: 20
+            };
+            this.rotate = this.game.add.sprite(288, 570, 'rotate');
+            this.rotate.anchor.setTo(0.5);
+            this.rotate.inputEnabled = true;
+            this.rotate.events.onInputDown.add(this.rotatePet, this);
+            this.buttons = [this.apple, this.candy, this.toy, this.rotate];
+            //nothing is selected
+        };
+        Main.prototype.placeItem = function (sprite, event) {
+            var x = event.position.x;
+            var y = event.position.y;
+            //var newItem = this.game.add.sprite(x,y,this.se)
+        };
+        Main.prototype.pickItem = function (sprite, event) {
+            if (!this.isUiBlocked) {
+                console.log('pick item');
+                this.clearSelection();
+                sprite.alpha = 0.4;
+                this.selected = sprite;
+            }
+        };
+        Main.prototype.clearSelection = function () {
+            this.buttons.forEach(function (sprite, index) {
+                return sprite.alpha = 1;
+            });
+            this.selected = null;
+        };
+        Main.prototype.rotatePet = function (sprite, event) {
+            var _this = this;
+            if (!this.isUiBlocked) {
+                console.log('rotate pet');
+                this.isUiBlocked = true;
+                this.clearSelection();
+                sprite.alpha = 0.4;
+                var rotation = this.game.add.tween(this.pet);
+                rotation.to({ angle: '+1080' }, 1200);
+                rotation.onComplete.add(function () {
+                    _this.isUiBlocked = false;
+                    sprite.alpha = 1;
+                    _this.pet.data.fun += 10;
+                }, this);
+                rotation.start();
             }
         };
         return Main;
@@ -102891,6 +102953,13 @@ var Pet;
             _super.apply(this, arguments);
         }
         Preloader.prototype.preload = function () {
+            this.load.image('background', 'assets/images/background.png');
+            this.load.image('apple', 'assets/images/apple.png');
+            this.load.image('candy', 'assets/images/candy.png');
+            this.load.image('rotate', 'assets/images/rotate.png');
+            this.load.image('toy', 'assets/images/rubber_duck.png');
+            this.load.image('arrow', 'assets/images/arrow.png');
+            this.load.spritesheet('pet', 'assets/images/pet.png', 97, 83, 5, 1, 1);
         };
         Preloader.prototype.create = function () {
             this.game.state.start("Main");

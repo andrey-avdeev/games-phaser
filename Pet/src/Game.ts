@@ -3,7 +3,7 @@ namespace Pet {
     export class Game extends Phaser.Game {
 
         constructor() {
-            super(800, 600, Phaser.AUTO);
+            super(360, 640, Phaser.AUTO);
 
             this.state.add("Boot", Pet.Boot);
             this.state.add("Preloader", Pet.Preloader);

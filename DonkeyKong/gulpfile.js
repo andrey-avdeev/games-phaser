@@ -12,9 +12,9 @@ const util       = require('gulp-util');
 const tsProject = typescript.createProject('tsconfig.json');
 
 gulp.task('lint', () => {
-  gulp.src('src/**/*.ts')
-    .pipe(tslint({ formatter: 'verbose' }))
-    .pipe(tslint.report({ emitError: true }));
+  //gulp.src('src/**/*.ts')
+  //  .pipe(tslint({ formatter: 'verbose' }))
+  //  .pipe(tslint.report({ emitError: true }));
 });
 
 gulp.task('build', ['lint'], () => {
@@ -28,8 +28,7 @@ gulp.task('build', ['lint'], () => {
 gulp.task('bundle', ['build'], () => {
   return gulp.src([
     'lib/phaser.js',
-    '.build/**/!(app).js',
-    '.build/app.js'
+    '.build/**.js'
   ])
     .pipe(concat('bundle.js'))
     .pipe(gulp.dest('public/js'))

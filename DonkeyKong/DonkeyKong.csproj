@@ -22,27 +22,25 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".build\app.js" />
-    <Content Include=".build\Boot.js" />
-    <Content Include=".build\Game.js" />
-    <Content Include=".build\Main.js" />
-    <Content Include=".build\Preloader.js" />
     <Content Include=".gitignore" />
+    <Content Include="assets\images\actionButton.png" />
+    <Content Include="assets\images\arrowButton.png" />
+    <Content Include="assets\images\barrel.png" />
+    <Content Include="assets\images\fire_spritesheet.png" />
+    <Content Include="assets\images\gorilla3.png" />
+    <Content Include="assets\images\ground.png" />
+    <Content Include="assets\images\platform.png" />
+    <Content Include="assets\images\player_spritesheet.png" />
     <Content Include="gulpfile.js" />
+    <Content Include="index.html" />
     <Content Include="index.js" />
     <Content Include="lib\phaser.js" />
-    <Content Include="public\css\main.css" />
-    <Content Include="public\js\bundle.js" />
-    <Content Include="public\js\bundle.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE" />
     <Content Include="package.json" />
-    <Content Include="public\fonts\px437_ati_8x16-webfont.woff" />
-    <Content Include="public\fonts\px437_ati_8x16-webfont.woff2" />
     <Content Include="README.md" />
     <Content Include="tsconfig.json" />
-    <Content Include="views\index.pug" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\app.ts" />
@@ -50,6 +48,14 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\Main.ts" />
     <TypeScriptCompile Include="src\Preloader.ts" />
+    <TypeScriptCompile Include="typings\box2d.d.ts" />
+    <TypeScriptCompile Include="typings\p2.d.ts" />
+    <TypeScriptCompile Include="typings\phaser.d.ts" />
+    <TypeScriptCompile Include="typings\phaser_box2d.d.ts" />
+    <TypeScriptCompile Include="typings\pixi.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\levels\level.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

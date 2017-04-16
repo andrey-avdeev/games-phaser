@@ -44,6 +44,7 @@
     <TypeScriptCompile Include="src\app.ts" />
     <TypeScriptCompile Include="src\Boot.ts" />
     <TypeScriptCompile Include="src\Game.ts" />
+    <TypeScriptCompile Include="src\Home.ts" />
     <TypeScriptCompile Include="src\Main.ts" />
     <TypeScriptCompile Include="src\Preloader.ts" />
     <TypeScriptCompile Include="typings\box2d.d.ts" />

@@ -1,8 +1,17 @@
 namespace Pet {
 
     export class Preloader extends Phaser.State {
-
+        public logo: Phaser.Sprite;
+        public bar: Phaser.Sprite;
         preload() {
+            this.logo = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+            this.logo.anchor.setTo(0.5);
+
+            this.bar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, 'bar');
+            this.bar.anchor.setTo(0.5);
+
+            this.load.setPreloadSprite(this.bar);
+
             this.load.image('background', 'assets/images/background.png');
             this.load.image('apple', 'assets/images/apple.png');
             this.load.image('candy', 'assets/images/candy.png');
@@ -13,7 +22,7 @@ namespace Pet {
         }
 
         create() {
-            this.game.state.start("Main");
+            this.game.state.start("Home");
         }
     }
 }

@@ -102803,8 +102803,11 @@ var Pet;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
+            this.load.image('bar', 'assets/images/bar.png');
+            this.load.image('logo', 'assets/images/logo.png');
         };
         Boot.prototype.create = function () {
+            this.game.stage.backgroundColor = '#fff';
             // Disable multitouch
             this.input.maxPointers = 1;
             // Pause if browser tab loses focus
@@ -102833,12 +102836,46 @@ var Pet;
             _super.call(this, 360, 640, Phaser.AUTO);
             this.state.add("Boot", Pet.Boot);
             this.state.add("Preloader", Pet.Preloader);
+            this.state.add('Home', Pet.Home);
             this.state.add("Main", Pet.Main);
             this.state.start("Boot");
         }
         return Game;
     }(Phaser.Game));
     Pet.Game = Game;
+})(Pet || (Pet = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Pet;
+(function (Pet) {
+    var Home = (function (_super) {
+        __extends(Home, _super);
+        function Home() {
+            _super.apply(this, arguments);
+        }
+        Home.prototype.init = function (message) {
+            this.message = message;
+        };
+        Home.prototype.create = function () {
+            var _this = this;
+            var background = this.game.add.sprite(0, 0, 'background');
+            background.inputEnabled = true;
+            background.events.onInputDown.add(function () {
+                _this.state.start('Main');
+            }, this);
+            var style = { font: '35px Arial', fill: '#fff' };
+            this.game.add.text(30, this.game.world.centerY + 200, 'TOUCH TO START', style);
+            if (this.message) {
+                this.game.add.text(60, this.game.world.centerY - 200, this.message, style);
+            }
+        };
+        return Home;
+    }(Phaser.State));
+    Pet.Home = Home;
 })(Pet || (Pet = {}));
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -102869,6 +102906,7 @@ var Pet;
             this.pet.data = { health: 100, fun: 100 };
             this.pet.inputEnabled = true;
             this.pet.input.enableDrag();
+            this.pet.animations.add('funny', [1, 2, 3, 2, 1], 7, false);
             this.apple = this.game.add.sprite(72, 570, 'apple');
             this.apple.anchor.setTo(0.5);
             this.apple.inputEnabled = true;
@@ -102897,12 +102935,49 @@ var Pet;
             this.rotate.inputEnabled = true;
             this.rotate.events.onInputDown.add(this.rotatePet, this);
             this.buttons = [this.apple, this.candy, this.toy, this.rotate];
-            //nothing is selected
+            var style = { font: '20px Arial', fill: '#fff' };
+            this.game.add.text(10, 20, 'Health:', style);
+            this.game.add.text(140, 20, 'Fun:', style);
+            this.healthText = this.game.add.text(80, 20, '', style);
+            this.funnyText = this.game.add.text(185, 20, '', style);
+            this.refreshStats();
+            this.statsDecreaser = this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.reduceStats, this);
         };
         Main.prototype.placeItem = function (sprite, event) {
-            var x = event.position.x;
-            var y = event.position.y;
-            //var newItem = this.game.add.sprite(x,y,this.se)
+            var _this = this;
+            if (this.selected && !this.isUiBlocked) {
+                var x = event.position.x;
+                var y = event.position.y;
+                var newItem = this.game.add.sprite(x, y, this.selected.key);
+                newItem.anchor.setTo(0.5);
+                newItem.data = this.selected.data;
+                console.log(newItem.data);
+                this.isUiBlocked = true;
+                var petMovement = this.game.add.tween(this.pet);
+                petMovement.to({ x: x, y: y }, 700);
+                petMovement.onComplete.add(function () {
+                    _this.pet.animations.play('funny');
+                    _this.isUiBlocked = false;
+                    var stat;
+                    for (stat in newItem.data) {
+                        if (newItem.data.hasOwnProperty(stat)) {
+                            _this.pet.data[stat] += newItem.data[stat];
+                        }
+                    }
+                    _this.refreshStats();
+                    newItem.destroy();
+                }, this);
+                petMovement.start();
+            }
+        };
+        Main.prototype.refreshStats = function () {
+            this.healthText.text = this.pet.data.health;
+            this.funnyText.text = this.pet.data.fun;
+        };
+        Main.prototype.reduceStats = function () {
+            this.pet.data.health -= 10;
+            this.pet.data.fun -= 20;
+            this.refreshStats();
         };
         Main.prototype.pickItem = function (sprite, event) {
             if (!this.isUiBlocked) {
@@ -102931,9 +103006,20 @@ var Pet;
                     _this.isUiBlocked = false;
                     sprite.alpha = 1;
                     _this.pet.data.fun += 10;
+                    _this.refreshStats();
                 }, this);
                 rotation.start();
             }
+        };
+        Main.prototype.update = function () {
+            if (this.pet.data.health <= 0 || this.pet.data.fun <= 0) {
+                this.pet.frame = 4;
+                this.isUiBlocked = true;
+                this.game.time.events.add(2000, this.gameOver, this);
+            }
+        };
+        Main.prototype.gameOver = function () {
+            this.game.state.start('Home', true, false, 'GAME OVER!');
         };
         return Main;
     }(Phaser.State));
@@ -102953,6 +103039,11 @@ var Pet;
             _super.apply(this, arguments);
         }
         Preloader.prototype.preload = function () {
+            this.logo = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+            this.logo.anchor.setTo(0.5);
+            this.bar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, 'bar');
+            this.bar.anchor.setTo(0.5);
+            this.load.setPreloadSprite(this.bar);
             this.load.image('background', 'assets/images/background.png');
             this.load.image('apple', 'assets/images/apple.png');
             this.load.image('candy', 'assets/images/candy.png');
@@ -102962,7 +103053,7 @@ var Pet;
             this.load.spritesheet('pet', 'assets/images/pet.png', 97, 83, 5, 1, 1);
         };
         Preloader.prototype.create = function () {
-            this.game.state.start("Main");
+            this.game.state.start("Home");
         };
         return Preloader;
     }(Phaser.State));

@@ -102791,24 +102791,119 @@ PIXI.TextureSilentFail = true;
 */
 
 window.onload = function () {
-    var game = new SpaceShip.Game();
+    var game = new DonkeyKong.Game();
 };
 
-var SpaceShip;
-(function (SpaceShip) {
-    var Sprites = (function () {
-        function Sprites() {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var DonkeyKong;
+(function (DonkeyKong) {
+    var Boot = (function (_super) {
+        __extends(Boot, _super);
+        function Boot() {
+            _super.apply(this, arguments);
         }
-        Sprites.BASE_PATH = 'assets/images/';
-        Sprites.FILE_EXTENSION = '.png';
-        Sprites.SPACE = 'space';
-        Sprites.PLAYER = 'player';
-        Sprites.BULLET = 'bullet';
-        Sprites.ENEMY_PARTICLE = 'enemyParticle';
-        Sprites.ENEMY_YELLOW = 'yellowEnemy';
-        Sprites.ENEMY_RED = 'redEnemy';
-        Sprites.ENEMY_GREEN = 'greenEnemy';
-        return Sprites;
-    }());
-    SpaceShip.Sprites = Sprites;
-})(SpaceShip || (SpaceShip = {}));
+        Boot.prototype.preload = function () {
+        };
+        Boot.prototype.create = function () {
+            // Disable multitouch
+            this.input.maxPointers = 1;
+            // Pause if browser tab loses focus
+            this.stage.disableVisibilityChange = true;
+            if (this.game.device.desktop) {
+            }
+            else {
+            }
+            this.game.state.start("Preloader");
+        };
+        return Boot;
+    }(Phaser.State));
+    DonkeyKong.Boot = Boot;
+})(DonkeyKong || (DonkeyKong = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var DonkeyKong;
+(function (DonkeyKong) {
+    var Game = (function (_super) {
+        __extends(Game, _super);
+        function Game() {
+            _super.call(this, 800, 600, Phaser.AUTO);
+            this.state.add("Boot", DonkeyKong.Boot);
+            this.state.add("Preloader", DonkeyKong.Preloader);
+            this.state.add("Main", DonkeyKong.Main);
+            this.state.start("Boot");
+        }
+        return Game;
+    }(Phaser.Game));
+    DonkeyKong.Game = Game;
+})(DonkeyKong || (DonkeyKong = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var DonkeyKong;
+(function (DonkeyKong) {
+    var Home = (function (_super) {
+        __extends(Home, _super);
+        function Home() {
+            _super.apply(this, arguments);
+        }
+        Home.prototype.preload = function () {
+        };
+        Home.prototype.create = function () {
+            this.game.state.start("Main");
+        };
+        return Home;
+    }(Phaser.State));
+    DonkeyKong.Home = Home;
+})(DonkeyKong || (DonkeyKong = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var DonkeyKong;
+(function (DonkeyKong) {
+    var Main = (function (_super) {
+        __extends(Main, _super);
+        function Main() {
+            _super.apply(this, arguments);
+        }
+        Main.prototype.create = function () {
+        };
+        return Main;
+    }(Phaser.State));
+    DonkeyKong.Main = Main;
+})(DonkeyKong || (DonkeyKong = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var DonkeyKong;
+(function (DonkeyKong) {
+    var Preloader = (function (_super) {
+        __extends(Preloader, _super);
+        function Preloader() {
+            _super.apply(this, arguments);
+        }
+        Preloader.prototype.preload = function () {
+        };
+        Preloader.prototype.create = function () {
+            this.game.state.start("Home");
+        };
+        return Preloader;
+    }(Phaser.State));
+    DonkeyKong.Preloader = Preloader;
+})(DonkeyKong || (DonkeyKong = {}));

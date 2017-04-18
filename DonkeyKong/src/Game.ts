@@ -7,6 +7,7 @@ namespace DonkeyKong {
 
             this.state.add("Boot", DonkeyKong.Boot);
             this.state.add("Preloader", DonkeyKong.Preloader);
+            this.state.add("Home", DonkeyKong.Home);
             this.state.add("Main", DonkeyKong.Main);
 
             this.state.start("Boot");

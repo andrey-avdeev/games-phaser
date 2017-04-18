@@ -7,7 +7,7 @@ namespace DonkeyKong {
         }
 
         create() {
-            this.game.state.start("Main");
+            this.game.state.start("Home");
         }
     }
 }

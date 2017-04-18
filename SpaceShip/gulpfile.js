@@ -31,7 +31,7 @@ gulp.task('bundle', ['build'], () => {
     '.build/**.js'
   ])
     .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('public/js'))
+    .pipe(gulp.dest(''))
     .pipe(process.env.LIVERELOAD != '0' ? livereload() : util.noop());
 });
 

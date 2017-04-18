@@ -81,7 +81,7 @@ namespace Farm {
 
             this.animalText.visible = false;
 
-            let newAnimal = null;
+            let newAnimal:any;
             let endX = 0;
 
             if (sprite.data.direction > 0) {

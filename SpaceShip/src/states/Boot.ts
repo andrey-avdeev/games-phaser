@@ -7,6 +7,8 @@ namespace SpaceShip {
         }
 
         create() {
+            this.game.stage.backgroundColor = '#fff';
+
             // Disable multitouch
             this.input.maxPointers = 1;
 

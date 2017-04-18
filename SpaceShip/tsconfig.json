@@ -1,18 +1,22 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "allowJs": true,
         "noImplicitAny": true,
         "outDir": "build",
         "rootDir": "src"
     },
     "files": [
         "node_modules/phaser-ce/typescript/phaser.d.ts",
-        "src/*.ts"
-        //"src/app.ts",
-        //"src/Game.ts",
-        //"src/Boot.ts",
-        //"src/Preloader.ts",
-        //"src/Main.ts"
+
+        "src/states/sprites.ts",
+        "src/prefabs/enemy.ts",
+        "src/prefabs/enemyBullet.ts",
+        "src/prefabs/playerBullet.ts",
+        "src/states/Boot.ts",
+        "src/states/Game.ts",
+        "src/states/Home.ts",
+        "src/states/Main.ts",
+        "src/states/Preloader.ts",
+        "src/states/app.ts"
     ]
 }

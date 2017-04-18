@@ -31,6 +31,16 @@
     <Content Include="assets\images\redEnemy.png" />
     <Content Include="assets\images\space.png" />
     <Content Include="assets\images\yellowEnemy.png" />
+    <Content Include="build\app.js" />
+    <Content Include="build\prefabs\enemy.js" />
+    <Content Include="build\prefabs\enemyBullet.js" />
+    <Content Include="build\prefabs\playerBullet.js" />
+    <Content Include="build\sprites.js" />
+    <Content Include="build\states\Boot.js" />
+    <Content Include="build\states\Game.js" />
+    <Content Include="build\states\Home.js" />
+    <Content Include="build\states\Main.js" />
+    <Content Include="build\states\Preloader.js" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
     <Content Include="index.js" />
@@ -38,19 +48,21 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\app.ts" />
-    <TypeScriptCompile Include="src\Boot.ts" />
-    <TypeScriptCompile Include="src\enemy.ts" />
-    <TypeScriptCompile Include="src\Game.ts" />
-    <TypeScriptCompile Include="src\Main.ts" />
-    <TypeScriptCompile Include="src\playerBullet.ts" />
-    <TypeScriptCompile Include="src\Preloader.ts" />
-    <TypeScriptCompile Include="src\sprites.ts" />
+    <TypeScriptCompile Include="src\states\app.ts" />
+    <TypeScriptCompile Include="src\prefabs\enemyBullet.ts" />
+    <TypeScriptCompile Include="src\states\Boot.ts" />
+    <TypeScriptCompile Include="src\prefabs\enemy.ts" />
+    <TypeScriptCompile Include="src\states\Game.ts" />
+    <TypeScriptCompile Include="src\states\Home.ts" />
+    <TypeScriptCompile Include="src\states\Main.ts" />
+    <TypeScriptCompile Include="src\prefabs\playerBullet.ts" />
+    <TypeScriptCompile Include="src\states\Preloader.ts" />
+    <TypeScriptCompile Include="src\states\sprites.ts" />
     <TypeScriptCompile Include="typings\box2d.d.ts" />
     <TypeScriptCompile Include="typings\p2.d.ts" />
-    <TypeScriptCompile Include="typings\phaser.d.ts" />
+    <TypeScriptCompile Include="typings\phaser.comments.d.ts" />
     <TypeScriptCompile Include="typings\phaser_box2d.d.ts" />
-    <TypeScriptCompile Include="typings\pixi.d.ts" />
+    <TypeScriptCompile Include="typings\pixi.comments.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tsconfig.json" />
@@ -61,6 +73,16 @@
     <Content Include="assets\levels\level1.json" />
     <Content Include="assets\levels\level2.json" />
     <Content Include="assets\levels\level3.json" />
+    <Content Include="build\app.js.map" />
+    <Content Include="build\prefabs\enemy.js.map" />
+    <Content Include="build\prefabs\enemyBullet.js.map" />
+    <Content Include="build\prefabs\playerBullet.js.map" />
+    <Content Include="build\sprites.js.map" />
+    <Content Include="build\states\Boot.js.map" />
+    <Content Include="build\states\Game.js.map" />
+    <Content Include="build\states\Home.js.map" />
+    <Content Include="build\states\Main.js.map" />
+    <Content Include="build\states\Preloader.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -68,7 +90,9 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="public\js\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

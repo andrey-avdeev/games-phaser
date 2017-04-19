@@ -73,7 +73,7 @@
             this.enemyTimer.add(Phaser.Timer.SECOND * 2, this.scheduleShooting, this);
         }
         shoot() {
-            let bullet = this.enemyBullets.getFirstExists(false);
+            var bullet = this.enemyBullets.getFirstExists(false) as SpaceShip.EnemyBullet;
 
             if (!bullet) {
                 bullet = new SpaceShip.EnemyBullet(this.game, this.x, this.bottom);
@@ -82,7 +82,7 @@
                 bullet.reset(this.x, this.y);
             }
 
-            bullet.velocity.y = 100;
+            bullet.body.velocity.y = 100;
         }
     }
 }

@@ -102790,9 +102790,383 @@ PIXI.TextureSilentFail = true;
 * "What matters in this life is not what we do but what we do for others, the legacy we leave and the imprint we make." - Eric Meyer
 */
 
-window.onload = function () {
-    var game = new SpaceShip.Game();
+var SpaceShip;
+(function (SpaceShip) {
+    var Sprites = (function () {
+        function Sprites() {
+        }
+        Sprites.BASE_PATH = 'assets/images/';
+        Sprites.FILE_EXTENSION = '.png';
+        Sprites.SPACE = 'space';
+        Sprites.PLAYER = 'player';
+        Sprites.BULLET = 'bullet';
+        Sprites.ENEMY_PARTICLE = 'enemyParticle';
+        Sprites.ENEMY_YELLOW = 'yellowEnemy';
+        Sprites.ENEMY_RED = 'redEnemy';
+        Sprites.ENEMY_GREEN = 'greenEnemy';
+        return Sprites;
+    }());
+    SpaceShip.Sprites = Sprites;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var SpaceShip;
+(function (SpaceShip) {
+    var Enemy = (function (_super) {
+        __extends(Enemy, _super);
+        function Enemy(game, x, y, key, health, enemyBullets) {
+            _super.call(this, game, x, y, key);
+            this.animations.add('getHit', [0, 1, 2, 1, 0], 25, false);
+            this.anchor.setTo(0.5);
+            this.health = health;
+            this.enemyBullets = enemyBullets;
+            this.enemyTimer = this.game.time.create(false);
+            this.enemyTimer.start();
+            this.scheduleShooting();
+        }
+        Enemy.prototype.update = function () {
+            if (this.position.x < 0.05 * this.game.world.width) {
+                this.position.x = 0.05 * this.game.world.width + 2;
+                this.body.velocity.x *= -1;
+            }
+            else if (this.position.x > 0.95 * this.game.world.width) {
+                this.position.x = 0.95 * this.game.world.width - 2;
+                this.body.velocity.x *= -1;
+            }
+            if (this.position.y > this.game.world.height)
+                this.kill();
+        };
+        Enemy.prototype.damage = function (amount) {
+            var sprite = _super.prototype.damage.call(this, amount);
+            this.play('getHit');
+            if (this.health <= 0) {
+                var emitter = this.game.add.emitter(this.x, this.y, 100);
+                emitter.makeParticles('enemyParticle');
+                emitter.minParticleSpeed.setTo(-200, -200);
+                emitter.maxParticleSpeed.setTo(200, 200);
+                emitter.gravity = 0;
+                emitter.start(true, 500, null, 100);
+                this.enemyTimer.pause();
+            }
+            return sprite;
+        };
+        Enemy.prototype.resetEnemy = function (key, scale, vx, vy, x, y, health) {
+            var sprite = _super.prototype.reset.call(this, x, y, health);
+            this.loadTexture(key);
+            this.scale.setTo(scale);
+            this.body.velocity.x = vx;
+            this.body.velocity.y = vy;
+            this.enemyTimer.resume();
+            return sprite;
+        };
+        Enemy.prototype.scheduleShooting = function () {
+            this.shoot();
+            this.enemyTimer.add(Phaser.Timer.SECOND * 2, this.scheduleShooting, this);
+        };
+        Enemy.prototype.shoot = function () {
+            var bullet = this.enemyBullets.getFirstExists(false);
+            if (!bullet) {
+                bullet = new SpaceShip.EnemyBullet(this.game, this.x, this.bottom);
+                this.enemyBullets.add(bullet);
+            }
+            else {
+                bullet.reset(this.x, this.y);
+            }
+            bullet.body.velocity.y = 100;
+        };
+        return Enemy;
+    }(Phaser.Sprite));
+    SpaceShip.Enemy = Enemy;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var EnemyBullet = (function (_super) {
+        __extends(EnemyBullet, _super);
+        function EnemyBullet(game, x, y) {
+            _super.call(this, game, x, y, SpaceShip.Sprites.BULLET);
+            this.anchor.setTo(0.5);
+            this.checkWorldBounds = true;
+            this.outOfBoundsKill = true;
+        }
+        return EnemyBullet;
+    }(Phaser.Sprite));
+    SpaceShip.EnemyBullet = EnemyBullet;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var PlayerBullet = (function (_super) {
+        __extends(PlayerBullet, _super);
+        function PlayerBullet(game, x, y) {
+            _super.call(this, game, x, y, SpaceShip.Sprites.BULLET);
+            this.anchor.setTo(0.5);
+            this.checkWorldBounds = true;
+            this.outOfBoundsKill = true;
+        }
+        return PlayerBullet;
+    }(Phaser.Sprite));
+    SpaceShip.PlayerBullet = PlayerBullet;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var Boot = (function (_super) {
+        __extends(Boot, _super);
+        function Boot() {
+            _super.apply(this, arguments);
+        }
+        Boot.prototype.preload = function () {
+        };
+        Boot.prototype.create = function () {
+            this.game.stage.backgroundColor = '#fff';
+            // Disable multitouch
+            this.input.maxPointers = 1;
+            // Pause if browser tab loses focus
+            this.stage.disableVisibilityChange = true;
+            if (this.game.device.desktop) {
+            }
+            else {
+            }
+            this.game.state.start("Preloader");
+        };
+        return Boot;
+    }(Phaser.State));
+    SpaceShip.Boot = Boot;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var Game = (function (_super) {
+        __extends(Game, _super);
+        function Game() {
+            _super.call(this, '100%', '100%', Phaser.AUTO);
+            this.state.add("Boot", SpaceShip.Boot);
+            this.state.add("Preloader", SpaceShip.Preloader);
+            this.state.add("Home", SpaceShip.Home);
+            this.state.add("Main", SpaceShip.Main);
+            this.state.start("Boot");
+        }
+        return Game;
+    }(Phaser.Game));
+    SpaceShip.Game = Game;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var Home = (function (_super) {
+        __extends(Home, _super);
+        function Home() {
+            _super.apply(this, arguments);
+        }
+        Home.prototype.preload = function () {
+        };
+        Home.prototype.create = function () {
+            this.game.state.start("Main");
+        };
+        return Home;
+    }(Phaser.State));
+    SpaceShip.Home = Home;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var Main = (function (_super) {
+        __extends(Main, _super);
+        function Main() {
+            _super.apply(this, arguments);
+            this.PLAYER_SPEED = 200;
+            this.BULLET_SPEED = -1000;
+            this.numLevels = 3;
+            this.currentEnemyIndex = 0;
+        }
+        Main.prototype.init = function (currentLevel) {
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.game.physics.startSystem(Phaser.Physics.ARCADE);
+            this.currentLevel = currentLevel ? currentLevel : 1;
+        };
+        Main.prototype.create = function () {
+            this.background = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, SpaceShip.Sprites.SPACE);
+            this.background.autoScroll(0, 30);
+            this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.height - 50, SpaceShip.Sprites.PLAYER);
+            this.player.anchor.setTo(0.5);
+            this.game.physics.arcade.enable(this.player);
+            this.player.body.collideWorldBounds = true;
+            this.initBullets();
+            this.shootingTimer = this.game.time.events.loop(Phaser.Timer.SECOND / 5, this.createPlayerBullet, this);
+            this.initEnemies();
+            this.loadLevel();
+            this.music = this.game.add.audio('music');
+            this.music.play();
+            this.cursors = this.game.input.keyboard.createCursorKeys();
+        };
+        Main.prototype.update = function () {
+            this.game.physics.arcade.overlap(this.enemyBullets, this.player, this.killPlayer, null, this);
+            this.game.physics.arcade.overlap(this.playerBullets, this.enemies, this.damageEnemy, null, this);
+            this.player.body.velocity.x = 0;
+            if (this.game.input.activePointer.isDown) {
+                var targetX = this.game.input.activePointer.position.x;
+                this.direction = targetX > this.game.world.centerX ? 1 : -1;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
+            }
+            if (this.cursors.left.isDown) {
+                this.direction = -1;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
+            }
+            else if (this.cursors.right.isDown) {
+                this.direction = 1;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
+            }
+        };
+        Main.prototype.initBullets = function () {
+            this.playerBullets = this.game.add.group();
+            this.playerBullets.enableBody = true;
+            this.enemyBullets = this.game.add.group();
+            this.enemyBullets.enableBody = true;
+        };
+        Main.prototype.createPlayerBullet = function () {
+            var bullet = this.playerBullets.getFirstExists(false);
+            if (!bullet) {
+                bullet = new SpaceShip.PlayerBullet(this.game, this.player.x, this.player.top);
+                this.playerBullets.add(bullet);
+            }
+            else {
+                bullet.reset(this.player.x, this.player.top);
+            }
+            bullet.body.velocity.y = this.BULLET_SPEED;
+        };
+        Main.prototype.initEnemies = function () {
+            this.enemies = this.add.group();
+            this.enemies.enableBody = true;
+            this.enemyBullets = this.add.group();
+            this.enemyBullets.enableBody = true;
+        };
+        Main.prototype.damageEnemy = function (bullet, enemy) {
+            enemy.damage(1);
+            bullet.kill();
+        };
+        Main.prototype.killPlayer = function () {
+            this.player.kill();
+            this.music.stop();
+            this.game.state.start("Home");
+        };
+        Main.prototype.createEnemy = function (x, y, health, key, scale, vx, vy) {
+            var enemy = this.enemies.getFirstExists(false);
+            if (!enemy) {
+                enemy = new SpaceShip.Enemy(this.game, x, y, key, health, this.enemyBullets);
+                this.enemies.add(enemy);
+            }
+            enemy.resetEnemy(key, scale, vx, vy, x, y, health);
+        };
+        Main.prototype.loadLevel = function () {
+            var _this = this;
+            this.currentEnemyIndex = 0;
+            this.levelData = JSON.parse(this.game.cache.getText("level" + this.currentLevel));
+            this.endOfLevelTimer = this.game.time.events.add(this.levelData.duration * 1000, function () {
+                console.log("Level was ended");
+                _this.music.stop();
+                if (_this.currentLevel < _this.numLevels) {
+                    _this.currentLevel++;
+                }
+                else {
+                    _this.currentLevel = 1;
+                }
+                _this.game.state.start("GameState", true, false, _this.currentLevel);
+            }, this);
+            this.scheduleNextEnemy();
+        };
+        Main.prototype.scheduleNextEnemy = function () {
+            var _this = this;
+            var nextEnemy = this.levelData.enemies[this.currentEnemyIndex];
+            if (nextEnemy) {
+                var nextTime = 1000 * (nextEnemy.time - (this.currentEnemyIndex == 0 ? 0 : this.levelData.enemies[this.currentEnemyIndex - 1].time));
+                this.nextEnemyTimer = this.game.time.events.add(nextTime, function () {
+                    _this.createEnemy(nextEnemy.x * _this.game.world.width, -100, nextEnemy.health, nextEnemy.key, nextEnemy.scale, nextEnemy.speedX, nextEnemy.speedY);
+                    _this.currentEnemyIndex++;
+                    _this.scheduleNextEnemy();
+                }, this);
+            }
+        };
+        Main.BASE_PATH = 'assets/images/';
+        Main.FILE_EXTENSION = '.png';
+        Main.SPACE = 'space';
+        Main.PLAYER = 'player';
+        Main.BULLET = 'bullet';
+        Main.ENEMY_PARTICLE = 'enemyParticle';
+        Main.ENEMY_YELLOW = 'yellowEnemy';
+        Main.ENEMY_RED = 'redEnemy';
+        Main.ENEMY_GREEN = 'greenEnemy';
+        return Main;
+    }(Phaser.State));
+    SpaceShip.Main = Main;
+})(SpaceShip || (SpaceShip = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var SpaceShip;
+(function (SpaceShip) {
+    var Preloader = (function (_super) {
+        __extends(Preloader, _super);
+        function Preloader() {
+            _super.apply(this, arguments);
+        }
+        Preloader.prototype.preload = function () {
+            this.load.image(SpaceShip.Sprites.SPACE, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.SPACE + SpaceShip.Sprites.FILE_EXTENSION);
+            this.load.image(SpaceShip.Sprites.PLAYER, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.PLAYER + SpaceShip.Sprites.FILE_EXTENSION);
+            this.load.image(SpaceShip.Sprites.BULLET, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.BULLET + SpaceShip.Sprites.FILE_EXTENSION);
+            this.load.image(SpaceShip.Sprites.ENEMY_PARTICLE, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.ENEMY_PARTICLE + SpaceShip.Sprites.FILE_EXTENSION);
+            this.load.spritesheet(SpaceShip.Sprites.ENEMY_YELLOW, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.ENEMY_YELLOW + SpaceShip.Sprites.FILE_EXTENSION, 50, 46, 3, 1, 1);
+            this.load.spritesheet(SpaceShip.Sprites.ENEMY_RED, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.ENEMY_RED + SpaceShip.Sprites.FILE_EXTENSION, 50, 46, 3, 1, 1);
+            this.load.spritesheet(SpaceShip.Sprites.ENEMY_GREEN, SpaceShip.Sprites.BASE_PATH + SpaceShip.Sprites.ENEMY_GREEN + SpaceShip.Sprites.FILE_EXTENSION, 50, 46, 3, 1, 1);
+            this.load.text('level1', 'assets/levels/level1.json');
+            this.load.text('level2', 'assets/levels/level2.json');
+            this.load.text('level3', 'assets/levels/level3.json');
+            this.load.audio('music', ['assets/audio/8bit-orchestra.mp3', 'assets/audio/8bit-orchestra.ogg']);
+        };
+        Preloader.prototype.create = function () {
+            this.game.state.start("Home");
+        };
+        return Preloader;
+    }(Phaser.State));
+    SpaceShip.Preloader = Preloader;
+})(SpaceShip || (SpaceShip = {}));
 
 var SpaceShip;
 (function (SpaceShip) {
@@ -102812,3 +103186,7 @@ var SpaceShip;
     }());
     SpaceShip.Sprites = Sprites;
 })(SpaceShip || (SpaceShip = {}));
+
+window.onload = function () {
+    var game = new SpaceShip.Game();
+};

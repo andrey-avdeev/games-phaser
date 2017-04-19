@@ -11,6 +11,8 @@ namespace SpaceShip {
 
         private levelData: any;
 
+        private direction: number;
+
         private background: Phaser.TileSprite;
         private player: Phaser.Sprite;
         private playerBullets: Phaser.Group;
@@ -20,6 +22,7 @@ namespace SpaceShip {
         private enemyBullets: Phaser.Group;
 
         private music: Phaser.Sound;
+        private cursors: Phaser.CursorKeys;
 
         public static BASE_PATH = 'assets/images/';
         public static FILE_EXTENSION = '.png';
@@ -55,17 +58,29 @@ namespace SpaceShip {
 
             this.music = this.game.add.audio('music');
             this.music.play();
+
+            this.cursors = this.game.input.keyboard.createCursorKeys();
         }
 
         update() {
+            this.game.physics.arcade.overlap(this.enemyBullets, this.player, this.killPlayer, null, this);
+            this.game.physics.arcade.overlap(this.playerBullets, this.enemies, this.damageEnemy, null, this);
+
             this.player.body.velocity.x = 0;
 
             if (this.game.input.activePointer.isDown) {
                 var targetX = this.game.input.activePointer.position.x;
 
-                var direction = targetX > this.game.world.centerX ? 1 : -1;
+                this.direction = targetX > this.game.world.centerX ? 1 : -1;
 
-                this.player.body.velocity.x = direction * this.PLAYER_SPEED;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
+            }
+            if (this.cursors.left.isDown) {
+                this.direction = -1;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
+            } else if (this.cursors.right.isDown) {
+                this.direction = 1;
+                this.player.body.velocity.x = this.direction * this.PLAYER_SPEED;
             }
         }
 

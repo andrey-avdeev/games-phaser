@@ -102790,10 +102790,6 @@ PIXI.TextureSilentFail = true;
 * "What matters in this life is not what we do but what we do for others, the legacy we leave and the imprint we make." - Eric Meyer
 */
 
-window.onload = function () {
-    var game = new DonkeyKong.Game();
-};
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -102837,6 +102833,7 @@ var DonkeyKong;
             _super.call(this, 800, 600, Phaser.AUTO);
             this.state.add("Boot", DonkeyKong.Boot);
             this.state.add("Preloader", DonkeyKong.Preloader);
+            this.state.add("Home", DonkeyKong.Home);
             this.state.add("Main", DonkeyKong.Main);
             this.state.start("Boot");
         }
@@ -102907,3 +102904,7 @@ var DonkeyKong;
     }(Phaser.State));
     DonkeyKong.Preloader = Preloader;
 })(DonkeyKong || (DonkeyKong = {}));
+
+window.onload = function () {
+    var game = new DonkeyKong.Game();
+};

@@ -60,9 +60,9 @@
     <TypeScriptCompile Include="src\states\sprites.ts" />
     <TypeScriptCompile Include="typings\box2d.d.ts" />
     <TypeScriptCompile Include="typings\p2.d.ts" />
-    <TypeScriptCompile Include="typings\phaser.comments.d.ts" />
+    <TypeScriptCompile Include="typings\phaser.d.ts" />
     <TypeScriptCompile Include="typings\phaser_box2d.d.ts" />
-    <TypeScriptCompile Include="typings\pixi.comments.d.ts" />
+    <TypeScriptCompile Include="typings\pixi.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="tsconfig.json" />

@@ -22,15 +22,41 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".build\prefabs\enemy.js" />
+    <Content Include=".build\prefabs\enemyBullet.js" />
+    <Content Include=".build\prefabs\playerBullet.js" />
+    <Content Include=".build\states\app.js" />
+    <Content Include=".build\states\Boot.js" />
+    <Content Include=".build\states\Game.js" />
+    <Content Include=".build\states\Home.js" />
+    <Content Include=".build\states\Main.js" />
+    <Content Include=".build\states\Preloader.js" />
+    <Content Include=".build\states\sprites.js" />
     <Content Include=".gitignore" />
-    <Content Include="assets\audio\8bit-orchestra.mp3" />
-    <Content Include="assets\images\bullet.png" />
-    <Content Include="assets\images\enemyParticle.png" />
-    <Content Include="assets\images\greenEnemy.png" />
-    <Content Include="assets\images\player.png" />
-    <Content Include="assets\images\redEnemy.png" />
-    <Content Include="assets\images\space.png" />
-    <Content Include="assets\images\yellowEnemy.png" />
+    <Content Include="assets\audio\8bit-orchestra.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\bullet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\enemyParticle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\greenEnemy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\player.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\redEnemy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\space.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\images\yellowEnemy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build\app.js" />
     <Content Include="build\prefabs\enemy.js" />
     <Content Include="build\prefabs\enemyBullet.js" />
@@ -45,6 +71,7 @@
     <Content Include="index.html" />
     <Content Include="index.js" />
     <Content Include="lib\phaser.js" />
+    <Content Include="public\js\bundle.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -69,10 +96,18 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="LICENSE" />
-    <Content Include="assets\audio\8bit-orchestra.ogg" />
-    <Content Include="assets\levels\level1.json" />
-    <Content Include="assets\levels\level2.json" />
-    <Content Include="assets\levels\level3.json" />
+    <Content Include="assets\audio\8bit-orchestra.ogg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\levels\level1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\levels\level2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\levels\level3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build\app.js.map" />
     <Content Include="build\prefabs\enemy.js.map" />
     <Content Include="build\prefabs\enemyBullet.js.map" />
@@ -90,9 +125,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="public\js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
@@ -122,6 +155,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>

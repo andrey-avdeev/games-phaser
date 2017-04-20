@@ -155,7 +155,8 @@ namespace SpaceShip {
                         this.currentLevel = 1;
                     }
 
-                    this.game.state.start("GameState", true, false, this.currentLevel);
+                    //this.game.state.start("Main", true, false, this.currentLevel);
+                    this.loadLevel();
                 }, this);
 
             this.scheduleNextEnemy();

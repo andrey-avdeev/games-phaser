@@ -1,4 +1,4 @@
 window.onload = () => {
-    console.log(SpaceShip);
+    //console.log(SpaceShip);
     const game = new SpaceShip.Game();
 };

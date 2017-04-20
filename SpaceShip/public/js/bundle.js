@@ -102790,25 +102790,6 @@ PIXI.TextureSilentFail = true;
 * "What matters in this life is not what we do but what we do for others, the legacy we leave and the imprint we make." - Eric Meyer
 */
 
-var SpaceShip;
-(function (SpaceShip) {
-    var Sprites = (function () {
-        function Sprites() {
-        }
-        Sprites.BASE_PATH = 'assets/images/';
-        Sprites.FILE_EXTENSION = '.png';
-        Sprites.SPACE = 'space';
-        Sprites.PLAYER = 'player';
-        Sprites.BULLET = 'bullet';
-        Sprites.ENEMY_PARTICLE = 'enemyParticle';
-        Sprites.ENEMY_YELLOW = 'yellowEnemy';
-        Sprites.ENEMY_RED = 'redEnemy';
-        Sprites.ENEMY_GREEN = 'greenEnemy';
-        return Sprites;
-    }());
-    SpaceShip.Sprites = Sprites;
-})(SpaceShip || (SpaceShip = {}));
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -103105,7 +103086,8 @@ var SpaceShip;
                 else {
                     _this.currentLevel = 1;
                 }
-                _this.game.state.start("GameState", true, false, _this.currentLevel);
+                //this.game.state.start("Main", true, false, this.currentLevel);
+                _this.loadLevel();
             }, this);
             this.scheduleNextEnemy();
         };
@@ -103188,5 +103170,6 @@ var SpaceShip;
 })(SpaceShip || (SpaceShip = {}));
 
 window.onload = function () {
+    //console.log(SpaceShip);
     var game = new SpaceShip.Game();
 };

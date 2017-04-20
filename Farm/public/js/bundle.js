@@ -102908,7 +102908,7 @@ var Farm;
             }
             this.isMoving = true;
             this.animalText.visible = false;
-            var newAnimal = null;
+            var newAnimal;
             var endX = 0;
             if (sprite.data.direction > 0) {
                 newAnimal = this.animals.next();
